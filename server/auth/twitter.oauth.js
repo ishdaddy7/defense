@@ -1,19 +1,17 @@
 'use strict';
 
-var creds = require('../../oauth');
-
 var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var TwitterStrategy = require('passport-twitter-oauth').OAuth2Strategy;
 var User = require('../api/users/user.model');
 
-module.exports = new GoogleStrategy({
-  clientID: creds.client_id,
-  clientSecret: creds.client_secret,
-  callbackURL: '/auth/google/callback'
+module.exports = new TwitterStrategy({
+  clientID: 'SmjwX1zFEpJ3lh5jkY6qh1Clc',
+  clientSecret: '9mn2dGm4xYD1ss5j9vCFZ65oBdiHLUIm2FxZj4mE6f2gXSbZSg',
+  callbackURL: '/auth/twitter/callback'
 }, function (token, refreshToken,  profile, triggerSerializationOfUser) {
   // this only runs when somebody logs in through google
   User.findOrCreate({
-    where: {googleId: profile.id},
+    where: {twitterId: profile.id},
     defaults: {
       email: profile.emails[0].value,
       name: profile.displayName,
