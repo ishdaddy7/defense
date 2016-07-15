@@ -5,7 +5,7 @@ app.controller('StoryListCtrl', function ($scope, stories, Story, users) {
   $scope.users = users;
 
   $scope.newStory = new Story();
-  
+
   $scope.removeStory = function (story) {
     story.destroy()
     .then(function () {

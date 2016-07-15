@@ -55,11 +55,29 @@ router.put('/:id', function (req, res, next) {
 });
 
 router.delete('/:id', function (req, res, next) {
+  Story.findById(req.params.id)
+  .then(function (story) {
+    console.log(story)
+    console.log('the storys author: ', story.author_id)
+    console.log('the requesting user: ', req.user.id);
+    if (req.user.id && (story.author_id == req.user.id)) {
+      console.log('we got this far');
+      story.destroy()
+      .then(function () {
+        res.status(204).end();
+      })
+      .catch(next);
+    }
+    else {
+      res.send('Suck it!');
+    }
+})
+/*
   req.story.destroy()
   .then(function () {
     res.status(204).end();
   })
-  .catch(next);
+  .catch(next);*/
 });
 
 module.exports = router;

@@ -3,10 +3,19 @@
 var router = require('express').Router();
 
 var User = require('../api/users/user.model');
+var crypto = require('crypto');
+var ssecret = require('../../oauth.js')
 
 router.post('/signup', function (req, res, next) {
   // process info from request and validate then create a user (in db)
   // "log them in"
+
+  const secret = ssecret.secret;
+  const hash = crypto.createHmac('sha256', secret)
+                   .update(req.body.password)
+                   .digest('hex');
+  req.body.password = hash;
+
   User.create(req.body)
   .then(function (user) {
     req.login(user, function (err) {
@@ -19,6 +28,13 @@ router.post('/signup', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
+
+  const secret = ssecret.secret;
+  const hash = crypto.createHmac('sha256', secret)
+                   .update(req.body.password)
+                   .digest('hex');
+  req.body.password = hash;
+
   User.findOne({where: req.body})
   .then(function (user) {
     if (user) {

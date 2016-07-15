@@ -49,11 +49,16 @@ router.put('/:id', function (req, res, next) {
 });
 
 router.delete('/:id', function (req, res, next) {
-  req.requestedUser.destroy()
-  .then(function () {
-    res.status(204).end();
-  })
-  .catch(next);
+  if (req.user.isAdmin) {
+    req.requestedUser.destroy()
+    .then(function () {
+      res.status(204).end();
+    })
+    .catch(next);
+  }
+  else {
+    res.send('Thou shall not pass!');
+  }
 });
 
 module.exports = router;

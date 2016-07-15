@@ -9,7 +9,7 @@ app.controller('UserListCtrl', function ($scope, users, User) {
       $scope.users.unshift(user);
     });
   };
-  
+
   $scope.userSearch = new User();
 
   $scope.userAdd = new User();

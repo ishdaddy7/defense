@@ -7,8 +7,8 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('../api/users/user.model');
 
 module.exports = new GoogleStrategy({
-  clientID: creds.client_id,
-  clientSecret: creds.client_secret,
+  clientID: creds.googlecreds.client_id,
+  clientSecret: creds.googlecreds.client_secret,
   callbackURL: '/auth/google/callback'
 }, function (token, refreshToken,  profile, triggerSerializationOfUser) {
   // this only runs when somebody logs in through google
